@@ -4,18 +4,29 @@ This repository hosts an end-to-end data science pipeline designed to solve one 
 
 Using the **Olist E-commerce dataset**, this project moves beyond traditional "static averages" to implement a **probabilistic inventory model** driven by Machine Learning (Facebook Prophet) and statistical risk management.
 
+**Now features an fully automated pipeline and an interactive executive dashboard.**
+
 ---
 
-## 🚀 Why This Matters (The Business Case)
+## 🚀 Quick Start
 
-In high-volume e-commerce, inventory management is a balancing act between two financial risks:
-1.  **Stockouts (Lost Revenue):** If a "Hero Product" runs out, the company loses immediate sales and long-term customer loyalty.
-2.  **Overstock (Frozen Capital):** Excess inventory ties up cash flow in warehousing costs and depreciation, preventing investment in growth.
+### 1. Run the Pipeline
+Execute the full data engineering, analysis, and optimization pipeline with one command:
+```bash
+python run_pipeline.py
+```
+This script will:
+1.  Process raw data.
+2.  Train forecasting models.
+3.  Optimize inventory parameters.
+4.  Generate static figure assets in `results/figures/`.
 
-**The Problem:** Most legacy systems rely on simple averages (e.g., "We sell 10 units a day, so buy 10").
-**The Failure Mode:** Averages hide volatility. If a supplier is 3 days late or a marketing campaign spikes demand by 20%, the "average" model fails, leading to stockouts.
-
-**The Solution:** This project builds a **resilient system** that calculates Safety Stock based on *variance* ($\sigma$), not just averages, ensuring a 95% Service Level even during supply chain disruptions.
+### 2. Launch the Dashboard
+View the results in an interactive web application:
+```bash
+streamlit run dashboard.py
+```
+This allows you to verify the impact of different service levels and costs on your bottom line in real-time.
 
 ---
 
@@ -23,15 +34,14 @@ In high-volume e-commerce, inventory management is a balancing act between two f
 
 | File | Description |
 | :--- | :--- |
-| `notebooks/01_Data_Engineering.ipynb` | **ETL Pipeline:** Merges 9 raw relational tables into a clean Master Source of Truth. Handles date parsing and null-value logic. |
-| `notebooks/02_ABC_Analysis.ipynb` | **Strategic Segmentation:** Uses the **Pareto Principle (80/20)** to identify high-value SKUs. Focuses resources on the products that drive revenue. |
-| `notebooks/03_Forecasting.ipynb` | **Demand Forecasting:** Trains a **Prophet** additive regression model to predict weekly sales trends, seasonality, and holiday spikes. |
-| `notebooks/04_Inventory_Optimization.ipynb` | **Risk Modeling:** transform forecasts into actionable Reorder Points (ROP) using lead-time variance analysis. |
-| `notebooks/05_Executive_Report.ipynb` | **Simulation & ROI:** Runs a 90-day "Sawtooth" simulation to stress-test the policy and visualize potential cost savings. |
-
-## 💾 Data Source
-* **Dataset:** [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) (via Kaggle).
-* **Context:** Real anonymized order data from 100k+ orders in Brazil.
+| `run_pipeline.py` | **Automation Orchestrator:** Runs all notebooks sequentially to generate results. |
+| `dashboard.py` | **Interactive App:** Streamlit dashboard for stakeholders to explore scenarios. |
+| `notebooks/01_Data_Engineering.ipynb` | **ETL Pipeline:** Merges 9 raw relational tables into a clean Master Source of Truth. |
+| `notebooks/02_ABC_Analysis.ipynb` | **Strategic Segmentation:** Uses Pareto Principle (80/20) to identify high-value SKUs. |
+| `notebooks/03_Forecasting.ipynb` | **Demand Forecasting:** Trains a **Prophet** model to predict weekly sales trends. |
+| `notebooks/04_Inventory_Optimization.ipynb` | **Risk Modeling:** Transforms forecasts into actionable Reorder Points (ROP). |
+| `notebooks/05_Executive_Report.ipynb` | **Simulation & ROI:** 90-day "Sawtooth" simulation to stress-test the policy. |
+| `results/figures/` | **Generated Assets:** Automatically generated plots (Cost Comparison, Sawtooth Chart, etc.). |
 
 ---
 
@@ -55,31 +65,20 @@ $$
 
 The 90-day simulation stress-tested this policy against a reactive baseline:
 
-* **Service Level Stability:** Maintained >95% availability even during simulated demand spikes.
-* **Capital Efficiency:** Reduced holding costs for Class C (low value) items by strictly limiting their safety stock.
-* **Operational Automation:** Generated automated "Reorder Point" triggers, removing manual guesswork from the purchasing process.
-
----
-
-## ⚖️ License
-
-**Code:** The software logic in this repository is licensed under the **MIT License**. You are free to use, modify, and distribute the code.
-
-**Data:** The dataset is provided by Olist under **CC BY-NC-SA 4.0**.
-* **Attribution:** Data provided by Olist.
-* **Non-Commercial:** The data cannot be used for commercial purposes.
-* **ShareAlike:** If you modify the dataset, you must share it under the same license.
+*   **Service Level Stability:** Maintained >95% availability even during simulated demand spikes.
+*   **Capital Efficiency:** Reduced holding costs for Class C (low value) items by strictly limiting their safety stock.
+*   **Operational Automation:** Generated automated "Reorder Point" triggers, removing manual guesswork.
 
 ---
 
 ## 🛠️ Installation & Setup
 
 ### 1. Prerequisites
-* Python 3.11+
-* Anaconda or Miniconda
+*   Python 3.11+
+*   Anaconda or Miniconda
 
 ### 2. Environment Setup
-It is recommended to use a separate Conda environment to ensure library compatibility (Prophet requires specific versions).
+It is recommended to use a separate Conda environment to ensure library compatibility.
 
 ```bash
 # Create the environment
@@ -90,3 +89,12 @@ conda activate supply_chain_311
 
 # Install dependencies
 pip install -r requirements.txt
+```
+
+---
+
+## ⚖️ License
+
+**Code:** The software logic in this repository is licensed under the **MIT License**.
+
+**Data:** The dataset is provided by Olist under **CC BY-NC-SA 4.0**.
